@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>sabado15</title>
+
+	<script type="text/javascript">
+		function loadDoc() {
+			let xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					if (document.getElementsByTagName('td').length == 0) {
+						let data = this.responseText;
+						let aux = data.split('_');
+						for (let v of aux) {
+							let array = v.split('-');
+							let fila = document.createElement('tr');
+							array.forEach(function(elem) {
+								let col = document.createElement('td');
+								let content = document.createTextNode(elem);
+								col.appendChild(content);
+								fila.appendChild(col);
+							})
+							document.getElementById('tabla').appendChild(fila);
+						}
+					}
+					let elems = document.getElementsByTagName('td');
+					for (e of elems) e.style = "border: 1px solid black; padding: 10px;";
+				}
+			}
+			xhr.open('get', 'existe.php', true);
+			xhr.send();
+		}
+
+
+	</script>
+
+	<style type="text/css">
+		table {
+			border: 1px solid black;
+			margin-top: 10px;
+		}
+		tr, th {
+			border: 1px solid black;
+			padding: 10px;
+		}
+	</style>
+
+</head>
+<body>
+	<h1>Consulta asíncrona</h1>
+	<button onclick = 'loadDoc();'>Consultar</button>
+	<table id = 'tabla'>
+		<tr>
+			<th>Títutlo</th>
+			<th>Descripción</th>
+			<th>Fecha</th>
+		</tr>
+	</table>
+
+</body>
+</html>
